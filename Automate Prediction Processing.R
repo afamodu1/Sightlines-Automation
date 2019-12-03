@@ -11,13 +11,13 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 
-# Define UI for application that draws a histogram
+
 ui <- fluidPage(
   
   # Application title
   titlePanel("Easy Prediction"),
   
-  # Sidebar with a slider input for number of bins 
+  # Sidebar layout and download buttons 
   sidebarLayout(
     sidebarPanel(
       p("This is a template that I used to process Prediction Data please add the following colums before using this tool"),
