@@ -4,8 +4,7 @@
 #
 # Find out more about building applications with Shiny here:
 #
-#    http://shiny.rstudio.com/
-#
+
 
 library(shiny)
 library(tidyverse)
@@ -17,7 +16,7 @@ ui <- fluidPage(
   # Application title
   titlePanel("Easy Prediction"),
   
-  # Sidebar with a slider input for number of bins 
+  # Sidebar panel that manages downloads
   sidebarLayout(
     sidebarPanel(
       p("This is a template that I used to process Prediction Data please add the following colums before using this tool"),
