@@ -15,26 +15,26 @@ library(leaflet) # Will use to demo maps that can be created
 library(tidyverse)
 
 {
-  key = "AIzaSyDWq9Ex0aQHMpB_xKdqiB7f0nwi1voPwbs"
+  key =  #Enter Google API Key here
   
   register_google(key = key)
   
-} #Contains my API Key Please Do Not Take!!!
+} 
 
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
    
    # Application title
    titlePanel("Drivetime Calculator"),
    
-   # Sidebar with a slider input for number of bins 
+   # Sidebar  
    sidebarLayout(
       sidebarPanel(
-         p("Drive Time Calculator that Uses the Geocoder to create drive-time between buildings please run this through a geocoded file"),
-         textInput("Anchor", "Choose a Building I.D"),
-         selectInput("Mode", "What Type of Transit Should be Used", choices =  c("walking", "driving", "transit"), selected = NULL),
-         textInput("Radius", "What is the maximum radius you would like to include from this building", value = ""),
-         fileInput("Geocode_File", "Choose CSV File", accept = c("text/csv", "text/comma-seperated-values,text/plain",".csv"))
+         p("Drive Time Calculator that Uses the Geocoder to create drive-time between buildings please run this through a geocoded file output with Geocoder.R"),
+         textInput("Anchor", "Choose a Building I.D"), #Identifies a building that is used to as a center for the drive time calculations
+         selectInput("Mode", "What Type of Transit Should be Used", choices =  c("walking", "driving", "transit"), selected = NULL), # Toggles the type of transit run through the geocoder
+         textInput("Radius", "What is the maximum radius you would like to include from this building", value = ""), #Indicates acceptable range for travel time
+         fileInput("Geocode_File", "Choose CSV File", accept = c("text/csv", "text/comma-seperated-values,text/plain",".csv")) # formats the .csv input
          
       ),
       
@@ -42,8 +42,8 @@ ui <- fluidPage(
       mainPanel(
         downloadButton("download_data", "Download Addresses"), # creates a button for downloading information from the internet
         downloadButton("download_na", "Download NA Values"), # Creates a button to download NA values that could not be geocoded
-        tableOutput("contents"),
-        textOutput("Here")
+        tableOutput("contents"), #creates table
+        
       )
    )
 )
@@ -88,7 +88,7 @@ server <- function(input, output) {
     mapdist(anchor2, as.character(address), mode = method, output = "simple")
   } #Helper code to help the direction converter to code accurately set to accept driving on default
     
-    data_frame_2 = lapply(df$`Lon/Lat`, test2)
+    data_frame_2 = lapply(df$`Lon/Lat`, test2) #applies test 2 to geocoder
     
     output$Here = renderText("Stop")
     
