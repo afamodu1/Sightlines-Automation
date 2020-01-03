@@ -36,8 +36,8 @@ ui <- fluidPage(
         p("This tool attempts to clean our building name by removing everything within parentheses and replacing the abbreviation bldg to building." ),
         p("Once the data is downloaded check the returned addresses to ensure that they are not just the town and state, this is an error and means that the program could not find the address by asking google"),
          p("This applications only supports files in the .csv format"),
-        textInput("Town", "Choose a Town", value = ""),
-        textInput("State", "Choose a State", value = ""),
+        textInput("Town", "Choose a Town", value = ""), # defines the blank town button
+        textInput("State", "Choose a State", value = ""), # defines the blank state button
          fileInput("Geocode_File", "Choose CSV File", accept = c("text/csv", "text/comma-seperated-values,text/plain",".csv")) # defines a file input as well as the expectations for it
       ),
       
@@ -63,13 +63,11 @@ server <- function(input, output) {
   mydata = eventReactive(input$Geocode_File, {
     df  = read.csv(input$Geocode_File$datapath) # turns the csv into a dataframe
     df$ADDRESS = as.character(df$`Building.Name`) #turns the address string into a character string that can be used by the program
-    #df$ADDRESS = gsub("\\(Aux)", "", df$Building.Name)
-    df$ADDRESS = gsub("Addition","", df$ADDRESS)
-    df$ADDRESS = gsub("Bldg","Building", df$ADDRESS)
-    #df$ADDRESS = gsub("Build","", df$ADDRESS)
-    df$ADDRESS = gsub( "*\\(.*?\\) *","", df$ADDRESS)
-    df$ADDRESS = paste(df$ADDRESS,", ", input$Town, ", ", input$State)
-    df = mutate_geocode(df, ADDRESS, output = "latlona")
+    df$ADDRESS = gsub("Addition","", df$ADDRESS)# removes additions from the name
+    df$ADDRESS = gsub("Bldg","Building", df$ADDRESS) # Replaces Bldg, with Building
+    df$ADDRESS = gsub( "*\\(.*?\\) *","", df$ADDRESS) # Removes everything within peranthasees
+    df$ADDRESS = paste(df$ADDRESS,", ", input$Town, ", ", input$State) # creates the qualified address
+    df = mutate_geocode(df, ADDRESS, output = "latlona") #Geocodes each site
 
      
      output$Mymap = renderLeaflet(leaflet(data = df) %>% addTiles() %>% addMarkers(~lon, ~lat, label = ~as.character(`Building.Name`))) #Output the map
