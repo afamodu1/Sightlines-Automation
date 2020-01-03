@@ -12,7 +12,7 @@ library(ggmap) # allows for geocoding
 library(readxl) # lets you read in an excel file (CURRENTLY DOES NOT WORK)
 library(maps) # allows a filter by state
 library(leaflet) # Will use to demo maps that can be created
-library(tidyverse)
+library(tidyverse) # allows for speficic funtions to be done
 
 {
 key =  # Place Google API Key Here
@@ -21,9 +21,9 @@ register_google(key = key)
 
 } #
 
-holder = c()
 
-# Define UI for application that draws a histogram
+
+# Define UI for application
 ui <- fluidPage(
    
    # Application title
@@ -35,6 +35,7 @@ ui <- fluidPage(
         p("Please enter in a state, town, then the building inventory pulled out from Athena. This tool will try to convert the building inventory to a list of addresses then create what a map of what the building inventory should look like in a Power BI Map at the bottom. Please wait for the table to be displayed before attempting a download."),
         p("This tool attempts to clean our building name by removing everything within parentheses and replacing the abbreviation bldg to building." ),
         p("Once the data is downloaded check the returned addresses to ensure that they are not just the town and state, this is an error and means that the program could not find the address by asking google"),
+         p("This applications only supports files in the .csv format"),
         textInput("Town", "Choose a Town", value = ""),
         textInput("State", "Choose a State", value = ""),
          fileInput("Geocode_File", "Choose CSV File", accept = c("text/csv", "text/comma-seperated-values,text/plain",".csv")) # defines a file input as well as the expectations for it
@@ -91,6 +92,7 @@ server <- function(input, output) {
       write.csv(mydata(),file)
     } # Formats the download button
   )
+  }
   
  
 
