@@ -12,7 +12,7 @@ library(tidyverse)
 library(dplyr)
 library(plotly)
 
-# Define UI for application that draws a histogram
+
 ui <- fluidPage(
   
   # Application title
